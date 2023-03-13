@@ -6,16 +6,15 @@ import (
 
 type Blog struct {
 	gorm.Model
-	OriginalPoster string
-	Username       User `gorm:"foreignKey:OriginalPoster"`
-	Content        string
+	User_ID  int
+	User     User `gorm:"foreignKey:User_ID"`
+	Content  string
+	Comments []Comment `gorm:"many2many:user_comment;"`
 }
 
 type Comment struct {
 	gorm.Model
-	Blog_ID        int
-	Blog           Blog `gorm:"foreignKey:Blog_ID"`
-	Commenter      string
-	Username       User `gorm:"foreignKey:Commenter"`
+	User_ID        int
+	User           User `gorm:"foreignKey:User_ID"`
 	CommentContent string
 }
