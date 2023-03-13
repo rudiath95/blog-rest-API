@@ -13,7 +13,7 @@ type User struct {
 
 type UserInfo struct {
 	gorm.Model
-	User_ID   int
+	User_ID   uint
 	User      User   `gorm:"foreignKey:User_ID"`
 	Email     string `gorm:"unique"`
 	FirstName string
