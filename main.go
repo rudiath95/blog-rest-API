@@ -19,6 +19,8 @@ func main() {
 
 	//#User
 	r.GET("/getuser", middleware.RequiredAuth, controllers.GetUser)
+	r.GET("/getuser-info", middleware.RequiredAuth, controllers.GetUserInfo)
+
 	r.POST("/signup", controllers.SignUp)
 	r.POST("/login", controllers.Login)
 	r.PUT("/edit-user/:id", middleware.RequiredAuth, controllers.EditUser)

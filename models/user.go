@@ -12,9 +12,9 @@ type User struct {
 }
 
 type UserInfo struct {
-	gorm.Model
-	User_ID   uint
-	User      User   `gorm:"foreignKey:User_ID"`
+	ID        int `gorm:"primary_key;auto_increment;not_null"`
+	UserRefer int
+	User      User   `gorm:"foreignKey:UserRefer"`
 	Email     string `gorm:"unique"`
 	FirstName string
 	LastName  string

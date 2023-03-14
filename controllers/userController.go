@@ -34,6 +34,22 @@ func GetUser(c *gin.Context) {
 	})
 }
 
+func GetUserInfo(c *gin.Context) {
+	//check admin status
+	user, _ := c.Get("user")
+	id := user.(models.User).ID
+
+	// Start Association Mode
+	var post models.UserInfo
+
+	ini.DB.Raw("SELECT i.id,i.user_refer,i.email,i.first_name,i.last_name,u.admin_power FROM user_infos i INNER JOIN users u ON user_refer = ?", id).Preload("User").Find(&post)
+
+	//Return
+	c.JSON(200, gin.H{
+		"user": post,
+	})
+}
+
 func SignUp(c *gin.Context) {
 	//Get the username/pass off req body
 	var body struct {
@@ -65,7 +81,7 @@ func SignUp(c *gin.Context) {
 
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to create user or Email already used",
+			"error": "Failed to create user or Username already used",
 		})
 		return
 	}
