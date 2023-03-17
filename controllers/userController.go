@@ -35,7 +35,7 @@ func GetUser(c *gin.Context) {
 }
 
 func GetUserInfo(c *gin.Context) {
-	//check admin status
+	//check user status
 	user, _ := c.Get("user")
 	id := user.(models.User).ID
 
@@ -47,6 +47,30 @@ func GetUserInfo(c *gin.Context) {
 	//Return
 	c.JSON(200, gin.H{
 		"user": post,
+	})
+}
+
+func UpdateGetUserInfo(c *gin.Context) {
+	//check user status
+	user, _ := c.Get("user")
+	id := user.(models.User).ID
+
+	var body struct {
+		Email     string
+		FirstName string
+		LastName  string
+	}
+
+	c.Bind(&body)
+	// Start Association Mode
+	var post models.UserInfo
+
+	ini.DB.Raw("UPDATE user_infos SET email = ?,first_name = ?,last_name = ? WHERE user_refer = ?",
+		body.Email, body.FirstName, body.LastName, id).Preload("User").Find(&post)
+
+	//Return
+	c.JSON(200, gin.H{
+		"successfully updated user with id": id,
 	})
 }
 

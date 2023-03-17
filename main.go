@@ -15,11 +15,13 @@ func init() {
 
 func main() {
 	r := gin.Default()
+	r.SetTrustedProxies(nil)
 	//>>Start Route
 
 	//#User
 	r.GET("/getuser", middleware.RequiredAuth, controllers.GetUser)
 	r.GET("/getuser-info", middleware.RequiredAuth, controllers.GetUserInfo)
+	r.PUT("/getuser-info", middleware.RequiredAuth, controllers.UpdateGetUserInfo)
 
 	r.POST("/signup", controllers.SignUp)
 	r.POST("/login", controllers.Login)
